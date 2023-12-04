@@ -1,12 +1,13 @@
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
-from selenium import webdriver 
+from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 
-#Webscraping manual - Obtencion de jugadores
+# Webscraping manual - Obtención de jugadores
 pagina = "https://www.basketball-reference.com/teams/LAL/2023.html"
 resultado = requests.get(pagina)
 contenido = resultado.text
@@ -14,17 +15,14 @@ contenido = resultado.text
 soup = BeautifulSoup(contenido, "lxml")
 
 titulo = soup.find("h1").get_text(strip=True, separator=" ")
-print("El titulo de la pagina es el siguiente:", titulo)
-
+print("El título de la página es el siguiente:", titulo)
 
 informacion = soup.find("div", {"id": "info"}).get_text(strip=True, separator=" ")
 
-
 informacion_por_renglones = informacion.split('\n')
-print("La informacion de la pagina principal es la siguiente:")
+print("La información de la página principal es la siguiente:")
 for linea in informacion_por_renglones:
     print(linea)
-
 
 jugadores_div = soup.find("div", {"id": "div_roster"})
 
@@ -38,33 +36,30 @@ if jugadores_div:
             jugador = [dato.get_text(strip=True) for dato in datos]
             datos_jugadores.append(jugador)
 
-
         columnas = [header.get_text(strip=True) for header in filas[0].find_all("th")]
-        data_df = pd.DataFrame(datos_jugadores, columns=columnas)
-        print("La informacion de los jugadores es la siguiente:",data_df)
+        data_jugadores_df = pd.DataFrame(datos_jugadores, columns=columnas)
+        print("La información de los jugadores es la siguiente:", data_jugadores_df)
 
-#Webscraping automatizado - Obtencion de asitente y coaches
-s= Service(ChromeDriverManager().install())
-opc= Options()
+# Webscapring automatizado - Obtención de asistentes
+s = Service(ChromeDriverManager().install())
+opc = Options()
 opc.add_argument("--window-size=1020,1200")
-navegador= webdriver.Chrome(service=s, options=opc)
+navegador = webdriver.Chrome(service=s, options=opc)
 
-#Abrir la pagina
-url= "https://www.basketball-reference.com/teams/LAL/2023.html"
+# Abre la página
+url = "https://www.basketball-reference.com/teams/LAL/2023.html"
 navegador.get(url)
 
-#Encontrar la seccion de los asistentes y coaches del equipo
-asistentes_div= navegador.find_element(By.ID,"all_assistant_coaches")
-
-#Extraer la informacion de la seccion de asistentes
+# Encuentra la sección de los asistentes del equipo
+asistentes_div = navegador.find_element(By.ID, "all_assistant_coaches")
 
 if asistentes_div:
-    html= asistentes_div.get_attribute("innerHTML")
-    soup_asistentes= BeautifulSoup(html, "html.parser")
+    # Extrae la información de la sección de asistentes
+    html = asistentes_div.get_attribute("innerHTML")
+    soup_asistentes = BeautifulSoup(html, "html.parser")
 
-    print("La informacion de los asistentes es la siguiente:")
-
-    #Procesar la informacion de los asistentes y entrenadores
+    print("La información de los asistentes es la siguiente:")
+    # Procesa la información de los asistentes y entrenadores
     data_asistentes = []
     asistentes_rows = soup_asistentes.find_all("tr")
     for row in asistentes_rows:
@@ -79,9 +74,6 @@ if asistentes_div:
     print(data_asistentes_df)  # Imprime el DataFrame de asistentes
 
 navegador.quit()
-    
-
-
 
 
 
