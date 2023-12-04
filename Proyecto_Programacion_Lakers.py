@@ -76,10 +76,3 @@ if asistentes_div:
 navegador.quit()
 
 
-
-
-
-
-
-
-
