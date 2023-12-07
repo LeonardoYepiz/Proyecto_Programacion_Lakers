@@ -97,8 +97,6 @@ if especifico_div:
 
 navegador.quit() 
 
-# Estadisticas de mas minutos en cancha de cada jugador
-# Se hace web scraping de la cantidad de minutos en partidos de 48 minutos para saber quienes son los jugadores con mas minutos en la cancha
 
 
 
