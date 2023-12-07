@@ -40,7 +40,7 @@ if jugadores_div:
         data_jugadores_df = pd.DataFrame(datos_jugadores, columns=columnas)
         print("La información de los jugadores es la siguiente:", data_jugadores_df)
 
-# Webscapring automatizado - Obtención de asistentes
+# Webscraping automatizado - Obtención de asistentes
 s = Service(ChromeDriverManager().install())
 opc = Options()
 opc.add_argument("--window-size=1020,1200")
@@ -71,30 +71,30 @@ if asistentes_div:
 
     # Crea el DataFrame con la información obtenida de asistentes
     data_asistentes_df = pd.DataFrame(data_asistentes)
-    print(data_asistentes_df)  # Imprime el DataFrame de asistentes
+    print(data_asistentes_df) 
 
-#Estadisticas de los jugadores durante la temporada regular
+# Estadísticas de los jugadores durante la temporada regular
 
-especifico_div= navegador.find_element(By.ID, "div_per_game")
+especifico_div = navegador.find_element(By.ID, "div_per_game")
 
 if especifico_div:
     especifico_html = especifico_div.get_attribute("innerHTML")
-    soup_especifico= BeautifulSoup(especifico_html, "html.parser")
+    soup_especifico = BeautifulSoup(especifico_html, "html.parser")
 
-    #Buscar la tabla de estadisticas
-    estadisticas_tabla= soup_especifico.find("table")
-    
+    # Buscar la tabla de estadísticas
+    estadisticas_tabla = soup_especifico.find("table")
+
     if estadisticas_tabla:
-        estadisticas_data= []
-        rows= estadisticas_tabla.find_all("tr")
+        estadisticas_data = []
+        rows = estadisticas_tabla.find_all("tr")
         for row in rows[1:]:
-            data=[cell.get_text(strip=True) for cell in row.find_all(["th", "td"])]
-            estadisticas_data.append(data
+            data = [cell.get_text(strip=True) for cell in row.find_all(["th", "td"])]
+            estadisticas_data.append(data)
 
         columnas = [header.get_text(strip=True) for header in rows[0].find_all("th")]
-        estadisticas_df= pd.DataFrame(estadisticas_data, columns=columnas)
-        print(estadisticas_df)
-        
-navegador.quit()
+        estadisticas_df = pd.DataFrame(estadisticas_data, columns=columnas)
+        print("Las estadisticas de los jugadores son las siguientes:\n", estadisticas_df)
+
+navegador.quit()  
 
 
