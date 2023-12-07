@@ -71,7 +71,7 @@ if asistentes_div:
 
     # Crea el DataFrame con la información obtenida de asistentes
     data_asistentes_df = pd.DataFrame(data_asistentes)
-    print(data_asistentes_df) 
+    print(data_asistentes_df)  # Imprime el DataFrame de asistentes
 
 # Estadísticas de los jugadores durante la temporada regular
 
@@ -95,6 +95,7 @@ if especifico_div:
         estadisticas_df = pd.DataFrame(estadisticas_data, columns=columnas)
         print("Las estadisticas de los jugadores son las siguientes:\n", estadisticas_df)
 
-navegador.quit()  
+navegador.quit()  # Cerrar el navegador al finalizar
+
 
 
