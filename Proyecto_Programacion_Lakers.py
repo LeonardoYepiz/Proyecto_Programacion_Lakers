@@ -95,7 +95,7 @@ if especifico_div:
         estadisticas_df = pd.DataFrame(estadisticas_data, columns=columnas)
         print("Las estadisticas de los jugadores son las siguientes:\n", estadisticas_df)
 
-navegador.quit()  # Cerrar el navegador al finalizar
+navegador.quit() 
 
 
 
