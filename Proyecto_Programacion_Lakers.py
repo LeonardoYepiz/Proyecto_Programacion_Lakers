@@ -139,7 +139,6 @@ if especifico_div:
         cantidad_mayores_de_30 = len(mayores_de_30)
         print(f"\nCantidad de jugadores mayores de 30 años: {cantidad_mayores_de_30}")
 
-
 navegador.quit() 
 
 
