@@ -35,10 +35,36 @@ if jugadores_div:
             datos = fila.find_all(["th", "td"])
             jugador = [dato.get_text(strip=True) for dato in datos]
             datos_jugadores.append(jugador)
-
+        #Agregar columna si la nacionalidad no existe
         columnas = [header.get_text(strip=True) for header in filas[0].find_all("th")]
-        data_jugadores_df = pd.DataFrame(datos_jugadores, columns=columnas)
-        print("La información de los jugadores es la siguiente:", data_jugadores_df)
+        if "birth_country" not in columnas:
+            columnas.append("birth_country")
+
+        data_jugadores= []
+        for fila in filas[1:]:
+            jugador = [dato.get_text(strip=True) for dato in fila.find_all(["th", "td"])]
+            #Obtener informacion de nacionalidad si esta disponible
+            nacionalidad=fila.find("td", {"data-stat": "birth_country"})
+            if nacionalidad:
+                jugador.append(nacionalidad.get_text(strip=True))
+            else:
+                jugador.append("N/A")
+
+            data_jugadores.append(jugador)
+
+        #Crear el dataframe con la informacion
+        data_jugadores_df= pd.DataFrame(data_jugadores, columns= columnas)
+
+        #Mostrar informacion
+        print("Informacion de todos los jugadores:")
+        print(data_jugadores_df.drop(columns=["birth_country"]))
+
+        #DataFrame unicamente con nombre y nacionalidad
+        jugadores_nacionalidad_df=data_jugadores_dff[["Player", "birth_country"]]
+        print("\nNombre de los jugadores y su nacionalidad:")
+        print(jugadores_nacionalidad_df)
+    
+       
 
 # Webscraping automatizado - Obtención de asistentes
 s = Service(ChromeDriverManager().install())
