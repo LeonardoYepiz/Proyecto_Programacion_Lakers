@@ -136,7 +136,7 @@ if especifico_div:
         
         # Cuenta con cuantos jugadores tienen mas de 30 años
         mayores_de_30 = estadisticas_df[estadisticas_df['Age'] > 30]
-        cantidad_mayores_de_30 = len(mayores de 30)
+        cantidad_mayores_de_30 = len(mayores_de_30)
         print(f"\nCantidad de jugadores mayores de 30 años: {cantidad_mayores_de_30}")
 
 
