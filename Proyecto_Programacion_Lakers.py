@@ -95,49 +95,49 @@ if especifico_div:
         estadisticas_df = pd.DataFrame(estadisticas_data, columns=columnas)
         print("Las estadisticas de los jugadores son las siguientes:\n", estadisticas_df)
 
-    # APORTE MARCELO
-
-# Convierte la columna de puntos a tipo numerico (si aun no lo es)
-estadisticas_df['PTS'] = pd.to_numeric(estadisticas_df['PTS'], errors='coerce')
-
-# Clasifica el DataFrame por la columna de puntos en orden descendente
-estadisticas_df = estadisticas_df.sort_values(by='PTS', ascending=False)
-
- # Imprime el DataFrame clasificado
-print("Clasificación de jugadores por puntos:")
-print(estadisticas_df[['Player', 'PTS']])
-
-# Convierte la columna 'G' a tipo numerico
-estadisticas_df['G'] = pd.to_numeric(estadisticas_df['G'], errors='coerce')
-
-# Convierte la columna 'MP' a tipo numerico si aun no lo es
-estadisticas_df['MP'] = pd.to_numeric(estadisticas_df['MP'], errors='coerce')
-
-# Calcula los minutos jugados por partido solo si 'G' y 'MP' son numericos
-mask_numeric = (pd.notnull(estadisticas_df['G'])) & (pd.notnull(estadisticas_df['MP']))
-estadisticas_df.loc[mask_numeric, 'MinPorPartido'] = estadisticas_df['MP'] / estadisticas_df['G']
-
- # Clasifica el DataFrame por la nueva columna 'MinPorPartido' en orden descendente
-estadisticas_df = estadisticas_df.sort_values(by='MinPorPartido', ascending=False)
-
-# Imprime el DataFrame clasificado
-print("Clasificacion de jugadores por minutos jugados por partido:")
-print(estadisticas_df[['Player', 'MinPorPartido']])
-
-# Convierte la columna de edad a tipo numérico (si aún no lo es)
-estadisticas_df['Age'] = pd.to_numeric(estadisticas_df['Age'], errors='coerce')
-
-# Clasifica el DataFrame por la columna de edad en orden descendente
-estadisticas_df = estadisticas_df.sort_values(by='Age', ascending=False)
-
-# Imprime el DataFrame clasificado
-print("Clasificación de jugadores por edad:")
-print(estadisticas_df[['Player', 'Age']])
-
-# Cuenta con cuantos jugadores tienen mas de 30 años
-mayores_de_30 = estadisticas_df[estadisticas_df['Age'] > 30]
-cantidad_mayores_de_30 = len(mayores de 30)
-print(f"\nCantidad de jugadores mayores de 30 años: {cantidad_mayores_de_30}")
+        # APORTE MARCELO
+    
+        # Convierte la columna de puntos a tipo numerico (si aun no lo es)
+        estadisticas_df['PTS'] = pd.to_numeric(estadisticas_df['PTS'], errors='coerce')
+        
+        # Clasifica el DataFrame por la columna de puntos en orden descendente
+        estadisticas_df = estadisticas_df.sort_values(by='PTS', ascending=False)
+        
+         # Imprime el DataFrame clasificado
+        print("Clasificación de jugadores por puntos:")
+        print(estadisticas_df[['Player', 'PTS']])
+        
+        # Convierte la columna 'G' a tipo numerico
+        estadisticas_df['G'] = pd.to_numeric(estadisticas_df['G'], errors='coerce')
+        
+        # Convierte la columna 'MP' a tipo numerico si aun no lo es
+        estadisticas_df['MP'] = pd.to_numeric(estadisticas_df['MP'], errors='coerce')
+        
+        # Calcula los minutos jugados por partido solo si 'G' y 'MP' son numericos
+        mask_numeric = (pd.notnull(estadisticas_df['G'])) & (pd.notnull(estadisticas_df['MP']))
+        estadisticas_df.loc[mask_numeric, 'MinPorPartido'] = estadisticas_df['MP'] / estadisticas_df['G']
+        
+         # Clasifica el DataFrame por la nueva columna 'MinPorPartido' en orden descendente
+        estadisticas_df = estadisticas_df.sort_values(by='MinPorPartido', ascending=False)
+        
+        # Imprime el DataFrame clasificado
+        print("Clasificacion de jugadores por minutos jugados por partido:")
+        print(estadisticas_df[['Player', 'MinPorPartido']])
+        
+        # Convierte la columna de edad a tipo numérico (si aún no lo es)
+        estadisticas_df['Age'] = pd.to_numeric(estadisticas_df['Age'], errors='coerce')
+        
+        # Clasifica el DataFrame por la columna de edad en orden descendente
+        estadisticas_df = estadisticas_df.sort_values(by='Age', ascending=False)
+        
+        # Imprime el DataFrame clasificado
+        print("Clasificación de jugadores por edad:")
+        print(estadisticas_df[['Player', 'Age']])
+        
+        # Cuenta con cuantos jugadores tienen mas de 30 años
+        mayores_de_30 = estadisticas_df[estadisticas_df['Age'] > 30]
+        cantidad_mayores_de_30 = len(mayores de 30)
+        print(f"\nCantidad de jugadores mayores de 30 años: {cantidad_mayores_de_30}")
 
 
 navegador.quit() 
