@@ -24,10 +24,12 @@ print("La información de la página principal es la siguiente:")
 for linea in informacion_por_renglones:
     print(linea)
 
+#Sacar informacion de jugadores
 jugadores_div = soup.find("div", {"id": "div_roster"})
 
 if jugadores_div:
     tabla = jugadores_div.find("table", {"class": "sortable"})
+
     if tabla:
         datos_jugadores = []
         filas = tabla.find_all("tr")
@@ -35,36 +37,36 @@ if jugadores_div:
             datos = fila.find_all(["th", "td"])
             jugador = [dato.get_text(strip=True) for dato in datos]
             datos_jugadores.append(jugador)
-        #Agregar columna si la nacionalidad no existe
-        columnas = [header.get_text(strip=True) for header in filas[0].find_all("th")]
-        if "birth_country" not in columnas:
-            columnas.append("birth_country")
 
-        data_jugadores= []
+        # Agregar una columna para la nacionalidad si no existe
+        columnas = [header.get_text(strip=True) for header in filas[0].find_all("th")]
+        if 'birth_country' not in columnas:
+            columnas.append('birth_country')
+
+        data_jugadores = []
         for fila in filas[1:]:
             jugador = [dato.get_text(strip=True) for dato in fila.find_all(["th", "td"])]
-            #Obtener informacion de nacionalidad si esta disponible
-            nacionalidad=fila.find("td", {"data-stat": "birth_country"})
+
+            # Obtener información de nacionalidad si está disponible
+            nacionalidad = fila.find("td", {"data-stat": "birth_country"})
             if nacionalidad:
                 jugador.append(nacionalidad.get_text(strip=True))
             else:
-                jugador.append("N/A")
+                jugador.append('N/A')
 
             data_jugadores.append(jugador)
 
-        #Crear el dataframe con la informacion
-        data_jugadores_df= pd.DataFrame(data_jugadores, columns= columnas)
+        # Crear el DataFrame con la información de los jugadores 
+        data_jugadores_df = pd.DataFrame(data_jugadores, columns=columnas)
 
-        #Mostrar informacion
-        print("Informacion de todos los jugadores:")
-        print(data_jugadores_df.drop(columns=["birth_country"]))
+        # Mostrar información de todos los jugadores 
+        print("Información de todos los jugadores:")
+        print(data_jugadores_df.drop(columns=['birth_country']))
 
-        #DataFrame unicamente con nombre y nacionalidad
-        jugadores_nacionalidad_df=data_jugadores_dff[["Player", "birth_country"]]
+        # DataFrame con solo el nombre y la nacionalidad
+        jugadores_nacionalidad_df = data_jugadores_df[['Player', 'birth_country']]
         print("\nNombre de los jugadores y su nacionalidad:")
         print(jugadores_nacionalidad_df)
-    
-       
 
 # Webscraping automatizado - Obtención de asistentes
 s = Service(ChromeDriverManager().install())
@@ -122,51 +124,52 @@ if especifico_div:
         print("Las estadisticas de los jugadores son las siguientes:\n", estadisticas_df)
 
         # APORTE MARCELO
-    
+
         # Convierte la columna de puntos a tipo numerico (si aun no lo es)
         estadisticas_df['PTS'] = pd.to_numeric(estadisticas_df['PTS'], errors='coerce')
-        
+
         # Clasifica el DataFrame por la columna de puntos en orden descendente
         estadisticas_df = estadisticas_df.sort_values(by='PTS', ascending=False)
-        
-         # Imprime el DataFrame clasificado
+
+        # Imprime el DataFrame clasificado
         print("Clasificación de jugadores por puntos:")
         print(estadisticas_df[['Player', 'PTS']])
-        
+
         # Convierte la columna 'G' a tipo numerico
         estadisticas_df['G'] = pd.to_numeric(estadisticas_df['G'], errors='coerce')
-        
+
         # Convierte la columna 'MP' a tipo numerico si aun no lo es
         estadisticas_df['MP'] = pd.to_numeric(estadisticas_df['MP'], errors='coerce')
-        
+
         # Calcula los minutos jugados por partido solo si 'G' y 'MP' son numericos
         mask_numeric = (pd.notnull(estadisticas_df['G'])) & (pd.notnull(estadisticas_df['MP']))
         estadisticas_df.loc[mask_numeric, 'MinPorPartido'] = estadisticas_df['MP'] / estadisticas_df['G']
-        
-         # Clasifica el DataFrame por la nueva columna 'MinPorPartido' en orden descendente
+
+        # Clasifica el DataFrame por la nueva columna 'MinPorPartido' en orden descendente
         estadisticas_df = estadisticas_df.sort_values(by='MinPorPartido', ascending=False)
-        
+
         # Imprime el DataFrame clasificado
         print("Clasificacion de jugadores por minutos jugados por partido:")
         print(estadisticas_df[['Player', 'MinPorPartido']])
-        
+
         # Convierte la columna de edad a tipo numérico (si aún no lo es)
         estadisticas_df['Age'] = pd.to_numeric(estadisticas_df['Age'], errors='coerce')
-        
+
         # Clasifica el DataFrame por la columna de edad en orden descendente
         estadisticas_df = estadisticas_df.sort_values(by='Age', ascending=False)
-        
+
         # Imprime el DataFrame clasificado
         print("Clasificación de jugadores por edad:")
         print(estadisticas_df[['Player', 'Age']])
-        
+
         # Cuenta con cuantos jugadores tienen mas de 30 años
         mayores_de_30 = estadisticas_df[estadisticas_df['Age'] > 30]
         cantidad_mayores_de_30 = len(mayores_de_30)
         print(f"\nCantidad de jugadores mayores de 30 años: {cantidad_mayores_de_30}")
 
-navegador.quit() 
 
+
+navegador.quit()
 
 
 
