@@ -176,7 +176,7 @@ navegador.quit()
 # dashboard asistentes:
 data_asistentes = pd.read_csv("C:/Users/Rebeca R/Downloads/asistentes.csv")
 
-def dashboard():
+def dashboard_asistentes():
     body = html.Div([
         html.H2("Datos de Asistentes"),
         html.P("Objetivo del DashBoard: Mostrar los datos de los asistentes."),
@@ -216,4 +216,32 @@ if __name__== "__main__":
     app.run_server(debug=True, host='127.0.0.1', port=8050)
 
 
+data_jugadores = pd.read_csv("C:/Users/may11/Downloads/data_jugadores.csv")
 
+def dashboard_jugadores():
+    body = html.Div([
+        html.H2("Datos de Jugadores"),
+        html.P("Objetivo del DashBoard: Mostrar los datos de los jugadores."),
+        html.Hr(),
+        dcc.Dropdown(
+            id="ddJugadores",
+            options=[
+                {"label": jugador, "value": jugador} for jugador in data_jugadores["Player"]
+            ],
+            multi=True,
+            value=[data_jugadores["Player"].iloc[0]],
+            style={'width': '50%'}
+        ),
+        dash_table.DataTable(
+            id='table',
+            columns=[{"name": i, "id": i} for i in data_jugadores.columns],
+            data=data_jugadores.to_dict("records"),
+            page_size=15
+        ),
+    ])
+    return body
+
+if __name__ == "__main__":
+    app = Dash(__name__)
+    app.layout = dashboard()
+    app.run_server(debug=True, host='127.0.0.1', port=8050)
