@@ -215,7 +215,7 @@ if __name__== "__main__":
     app.layout = dashboard()
     app.run_server(debug=True, host='127.0.0.1', port=8050)
 
-
+#dashboard jugadores
 data_jugadores = pd.read_csv("C:/Users/may11/Downloads/data_jugadores.csv")
 
 def dashboard_jugadores():
